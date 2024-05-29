@@ -1,16 +1,16 @@
 import re
 import datetime
 
+
 def extract_timestamp(log_message):
-    # Извлекает метку времени из строки лога.
     pattern = r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
     timestamp_match = re.search(pattern, log_message)
     if timestamp_match:
         return datetime.datetime.strptime(timestamp_match.group(), "%Y-%m-%d %H:%M:%S")
     return None
 
+
 def validate_log_order(log_file):
-    # Проверяет порядок записей в файле логов.
     with open(log_file, 'r') as file:
         lines = file.readlines()
 
@@ -32,9 +32,11 @@ def validate_log_order(log_file):
     print("Log order is correct.")
     return True
 
-log_file_path = 'subscriber_logs.log'
-validate_log_order(log_file_path)
-log_file_path = 'publisher_logs.log'
-validate_log_order(log_file_path)
-log_file_path = 'user_service_logs.log'
-validate_log_order(log_file_path)
+print("\ncommon.log")
+validate_log_order("common.log")
+print("\npublisher.log")
+validate_log_order("publisher.log")
+print("subscriber.log")
+validate_log_order("subscriber.log")
+print("user_service.log")
+validate_log_order("user_service.log")
