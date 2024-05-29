@@ -8,8 +8,11 @@ import socket
 logging.basicConfig(level=logging.DEBUG)
 
 class CustomLogger(logging.Logger):
-    def makeRecord(self, *args, kwargs):
-        record = super(CustomLogger, self).makeRecord(*args, kwargs)
+    def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func=None,
+                    extra=None, sinfo=None, **kwargs):  # Добавлен **kwargs
+        record = super(CustomLogger, self).makeRecord(
+            name, level, fn, lno, msg, args, exc_info, func, extra, sinfo, **kwargs
+        )
         record.hostname = socket.gethostname()
         return record
 
@@ -23,6 +26,10 @@ file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelnam
 logger.addHandler(file_handler)
 
 app = FastAPI()
+
+@app.get("/")  # Добавляем корневой обработчик
+async def root():
+    return {"message": "User Service is running"}
 
 def hash_user_info(user_info):
     return hashlib.md5(user_info.encode()).hexdigest()
