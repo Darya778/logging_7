@@ -22,8 +22,9 @@ logger.addHandler(file_handler)
 
 broker = "broker.emqx.io"
 
+pub_client = mqtt_client.Client()  # Перемещаем создание клиента за пределы функции
+pub_client.connect(broker)  # Устанавливаем подключение к брокеру
+
 def publish_message(message):
-    pub_client = mqtt_client.Client()
-    pub_client.connect(broker)
     pub_client.publish("lab/leds/state", message)
     logger.info(f"Published message: {message}")
