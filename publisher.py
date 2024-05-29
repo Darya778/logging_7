@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt_client
 import logging
+import socket
 
 # Logger configuration
 logging.basicConfig(level=logging.DEBUG)
@@ -14,6 +15,10 @@ logger = CustomLogger("Publisher")
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - [%(hostname)s] - %(message)s'))
 logger.addHandler(console_handler)
+
+file_handler = logging.FileHandler('publisher_logs.log')  # Добавляем FileHandler для записи в файл
+file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - [%(hostname)s] - %(message)s'))
+logger.addHandler(file_handler)
 
 broker = "broker.emqx.io"
 
